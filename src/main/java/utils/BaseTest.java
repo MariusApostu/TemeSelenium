@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 public class BaseTest extends Driver {
 
@@ -21,6 +22,7 @@ public class BaseTest extends Driver {
     public void setUp(){
         driver = initDriver();
         driver.get(url);
+        driver.manage().timeouts().implicitlyWait(10000, TimeUnit.MILLISECONDS);
             }
 
 
