@@ -1,54 +1,34 @@
 package utils;
 
-import com.google.common.io.Files;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 public class BaseTest extends Driver {
 
     public String url = ReadProperties.config.getProperty("url");
-    public WebDriver driver;
+    public static WebDriver driver;
+    public BasePage page;
 
     @BeforeClass
     public void setUp(){
         driver = initDriver();
         driver.get(url);
-        driver.manage().timeouts().implicitlyWait(10000, TimeUnit.MILLISECONDS);
-            }
 
+        page = new BasePage();
 
-    @AfterClass(alwaysRun = true)
-    public void tearDown() throws InterruptedException {
-        Thread.sleep(5000);
+     //  PageFactory.initElements(driver, LoginPage.class);
+
+     //   LoginPage loginPage = new LoginPage(driver);
+     //   PageFactory.initElements(driver, loginPage);
+
+    }
+
+    @AfterClass
+    public void tearDown(){
+
         driver.quit();
     }
 
-    @AfterMethod
-    public void pictureOnFailure(ITestResult result) {
-        if(ITestResult.FAILURE == result.getStatus()){
-            try{
-                TakesScreenshot poza  = (TakesScreenshot)driver;
-                File picture = poza.getScreenshotAs(OutputType.FILE);
-                Files.copy(picture, new File( "screenshots/"+ result.getName() +".png"));
-            }catch (Exception e) {
-                System.out.println("Cannot take picture");
-                e.printStackTrace();
-            }
-
-
-        }
-
-
-
-    }
 
 }

@@ -7,12 +7,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.concurrent.TimeUnit;
 
 public class Driver {
+
     public WebDriver driver;
     public static String browser = ReadProperties.config.getProperty("browser");
 
     public WebDriver initDriver() {
 
-        switch (browser.toLowerCase()) {
+        switch(browser.toLowerCase()) {
             case "chrome" :
                 System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
                 driver = new ChromeDriver();
@@ -30,7 +31,6 @@ public class Driver {
         }
 
     }
-
 
 
 }

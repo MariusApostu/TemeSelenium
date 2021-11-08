@@ -1,10 +1,13 @@
 package tests;
 
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.NavigationMenuPage;
 import utils.BaseTest;
+import utils.TestNgListener;
 
+@Listeners(TestNgListener.class)
 public class TestExample extends BaseTest {
     NavigationMenuPage navPage;
     LoginPage loginPage;

@@ -7,82 +7,98 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.TestException;
 
-public class SeleniumWrappers extends BaseTest{
+public class SeleniumWrappers extends BaseTest {
 
-    public void hoverElement(WebElement element){
+    public void doubleClick(WebElement element) {
         try{
             waitForElementToBeDisplayed(element);
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element).perform();
-        }catch(Exception e){
-            throw new TestException("the element was not present");
+            Actions actions =  new Actions(driver);
+            actions.doubleClick(element).perform();
+        }catch (Exception e) {
+            throw new TestException("The element was not present");
+
         }
     }
+
+
+    public void hoverElement(WebElement element) {
+        try{
+            waitForElementToBeDisplayed(element);
+            Actions actions =  new Actions(driver);
+            actions.moveToElement(element).perform();
+        }catch (Exception e) {
+            throw new TestException("The element was not present");
+
+        }
+    }
+
     public void dragAndDropSlider(WebElement element, int xOffset, int yOffset){
         try{
             waitForElementToBeDisplayed(element);
-            Actions actions = new Actions(driver);
-            actions.dragAndDropBy(element,xOffset,yOffset).perform();
-        }catch(Exception e){
+            Actions actions =  new Actions(driver);
+            actions.dragAndDropBy(element, xOffset, yOffset).perform();
+
+        }catch (Exception e) {
             throw new TestException("The element was not present");
+
         }
     }
-    public void doubleClick(WebElement element){
+
+
+
+    public void waitForElementToBeDisplayed(WebElement element) {
         try{
-            waitForElementToBeDisplayed(element);
-            Actions actions = new Actions(driver);
-            actions.doubleClick(element).perform();
-        }catch(Exception e){
+            Log.info("Called the <waitForElementToBeDisplayed> on element" + element);
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }catch (Exception e){
+            Log.error(e.getStackTrace().toString());
             throw new TestException("The element was not present");
         }
     }
 
-    public void waitForElementToBeDisplayed(WebElement element){
+    public void waitForElementToBeClickable(WebElement element) {
         try{
-            WebDriverWait wait = new WebDriverWait(driver, 10);
-            wait.until(ExpectedConditions.visibilityOf(element));
-        }catch (Exception e){
-            throw new TestException("The element was not present!");
-        }
-    }
-    public void waitForElementToBeClickable(WebElement element){
-        try{
+            Log.info("Called the <waitForElementToBeClickable> on element" + element);
             WebDriverWait wait = new WebDriverWait(driver, 10);
             wait.until(ExpectedConditions.elementToBeClickable(element));
         }catch (Exception e){
-            throw new TestException("The element was not present!");
+            Log.error("Failed on <waitForElementToBeClickable>  on element" + element);
+            throw new TestException("The element was not present");
         }
     }
 
     /**
-     * Method used to send key values (String) to an input or text area field
+     * Method used to send key values (String) to an input or textarea field
      * First clears the element of any text
-     * @param element:WebElement that receives the text input
-     * @param value: The String value to be sent
+     * @param element : WebELment that receives the text input
+     * @param value : The String value to be sent
      */
-    public void sendKeys(WebElement element, String value){
+    public void sendKeys(WebElement element, String value) {
         try{
             waitForElementToBeDisplayed(element);
             element.clear();
             element.sendKeys(value);
         }catch (Exception e){
-            throw new TestException("The element was not present!");
+            throw new TestException("The element was not present");
         }
     }
+
     /**
      * Method used to click an element. Makes use of method waitForElementToBeClickable(element);
-     * @param element: element to be clicked on (type WebElement)
+     * @param element : element to be clicked on (type WebElement)
      */
-    public void click(WebElement element){
+    public void click(WebElement element) {
+        Log.info("Called the <click> on element" + element);
         waitForElementToBeClickable(element);
         try {
             element.click();
-        }catch(StaleElementReferenceException e){
+        }catch(StaleElementReferenceException e) {
+            Log.error("error catched StaleElementReferenceException");
             element.click();
-        }catch (Exception e){
-            throw new TestException("The element was not clickable!");
+        }catch (Exception e) {
+            throw new TestException("Element was not clickable");
         }
-
     }
 
 
